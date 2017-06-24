@@ -1,0 +1,56 @@
+Rule :
+	'when' condition=Condition
+	('on days' days+=Day)?
+	'then' actions+=Action
+;
+
+Action:
+	SendAction | SetHeartBeatAction
+;
+
+SetHeartBeatAction:
+	'set heartbeat['deviceId=INT']' 'to' value=INT
+;
+
+SendAction:
+	'send' command=Command text=STRING
+;
+
+Command:
+	'email' | 'notification'
+;
+
+Day:
+	'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
+;
+
+Condition:
+	BasicCondition | DifferenceCondition | CompositeCondition
+;
+
+BasicCondition:
+	'reading[' deviceId=INT '][' type=ID ']' comparator=EquitableComparator treshold=FLOAT
+;
+
+DifferenceCondition:
+	'reading[' deviceId1=INT '][' type1=ID ']'
+	comparator=Comparator	
+	'reading[' deviceId2=INT '][' type2=ID ']'
+	('by' difference=FLOAT)?
+;
+
+CompositeCondition:
+	'(' operator=BooleanOperator conditions+=Condition ')'
+;
+
+BooleanOperator:
+	'and' | 'or'
+;
+
+EquitableComparator:
+	Comparator | '='
+;
+
+Comparator:
+	'<' | '>' | '<=' | '>='
+;
