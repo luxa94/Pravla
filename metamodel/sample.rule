@@ -1,0 +1,6 @@
+when (or reading[1][T] < reading[2][T] reading[1][P] < 1013 (and reading[3][T] < reading[2][T] by 12))
+on days Monday Tuesday
+then
+send email "Cao imejle"
+send notification "Cao notifikacijo"
+set heartbeat[1] to 5
