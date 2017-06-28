@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+import pravlapp.urls
 # from django.contrib.auth.models import User
 # from rest_framework import routers, serializers, viewsets
 #
@@ -38,5 +39,6 @@ from django.contrib import admin
 # ]
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
+    url(r'^', include('pravlapp.urls'))
 ]

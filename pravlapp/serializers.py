@@ -1,16 +1,11 @@
 from rest_framework import serializers
 from pravlapp.models import User, Device, Reading, Rule, Message, FirebaseToken
 
-# TODO: Finish serializers :)
-class UserSerializer(serializers.ModelSerializer):
-    devices = DeviceSerializer(many=True, read_only=True)
-    rules = RuleSerializer(many=True, read_only=True)
-    messages = MessageSerializer(many=True, read_only=True)
-    tokens = FirebaseTokenSerializer(many=True, read_only=True)
 
+class ReadingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('id', 'username', 'password', 'email', 'devices', 'rules', 'messages', 'tokens')
+        model = Reading
+        fields = ('id', 'type', 'current_value', 'last_update')
 
 
 class DeviceSerializer(serializers.ModelSerializer):
@@ -21,10 +16,10 @@ class DeviceSerializer(serializers.ModelSerializer):
         fields = ('id', 'serialNumber', 'name', 'heartbeat', 'active', 'readings')
 
 
-class ReadingSerializer(serializers.ModelSerializer):
+class MessageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Reading
-        fields = ('id', 'type','current_value', 'last_update')
+        model = Message
+        fields = ('id', 'timestamp')
 
 
 class RuleSerializer(serializers.ModelSerializer):
@@ -35,13 +30,18 @@ class RuleSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'active', 'definition', 'messages')
 
 
-class MessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Message
-        fields = ('id', 'timestamp')
-
-
 class FirebaseTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = FirebaseToken
         fields = ('id', 'token')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    devices = DeviceSerializer(many=True, read_only=True)
+    rules = RuleSerializer(many=True, read_only=True)
+    messages = MessageSerializer(many=True, read_only=True)
+    tokens = FirebaseTokenSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password', 'email', 'devices', 'rules', 'messages', 'tokens')
