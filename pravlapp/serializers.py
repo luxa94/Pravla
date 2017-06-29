@@ -7,14 +7,20 @@ class ReadingSerializer(serializers.ModelSerializer):
         model = Reading
         fields = ('id', 'type', 'current_value', 'last_update')
 
-
 class DeviceSerializer(serializers.ModelSerializer):
-    readings = ReadingSerializer(many=True, read_only=True)
+    readings = ReadingSerializer(many=True)
 
     class Meta:
         model = Device
-        fields = ('id', 'serialNumber', 'name', 'heartbeat', 'active', 'readings')
+        fields = ('id', 'serial_number', 'name', 'heartbeat', 'active', 'readings')
 
+    def create(self, validated_data):
+        user = validated_data.pop('user')
+        readings = validated_data.pop('readings')
+        device = Device.objects.create(user=user, **validated_data)
+        for reading in readings:
+            Reading.objects.create(device=device, **reading)
+        return device
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:

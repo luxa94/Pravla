@@ -19,7 +19,7 @@ class Reading(models.Model):
     type = models.CharField(max_length=256)
     current_value = models.FloatField()
     last_update = models.DateTimeField(auto_now=True)
-    sensor = models.ForeignKey(Device, related_name="readings")
+    device = models.ForeignKey(Device, related_name="readings")
 
 
 class Rule(models.Model):
