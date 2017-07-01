@@ -7,6 +7,7 @@ class ReadingSerializer(serializers.ModelSerializer):
         model = Reading
         fields = ('id', 'type', 'current_value', 'last_update')
 
+
 class DeviceSerializer(serializers.ModelSerializer):
     readings = ReadingSerializer(many=True)
 
@@ -21,6 +22,7 @@ class DeviceSerializer(serializers.ModelSerializer):
         for reading in readings:
             Reading.objects.create(device=device, **reading)
         return device
+
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
