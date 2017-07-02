@@ -43,6 +43,9 @@ class FirebaseTokenSerializer(serializers.ModelSerializer):
         model = FirebaseToken
         fields = ('id', 'token')
 
+    def create(self, validated_data):
+        return FirebaseToken.objects.create(**validated_data)
+
 
 class UserSerializer(serializers.ModelSerializer):
     devices = DeviceSerializer(many=True, read_only=True)
