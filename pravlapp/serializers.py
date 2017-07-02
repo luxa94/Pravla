@@ -37,6 +37,9 @@ class RuleSerializer(serializers.ModelSerializer):
         model = Rule
         fields = ('id', 'name', 'active', 'definition', 'messages')
 
+    def create(self, validated_data):
+        return Rule.objects.create(**validated_data)
+
 
 class FirebaseTokenSerializer(serializers.ModelSerializer):
     class Meta:

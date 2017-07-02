@@ -1,15 +1,15 @@
-from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from pravlapp.serializers import FirebaseTokenSerializer
+from pravlapp.serializers import RuleSerializer
 from pravlapp.util.decorators import Authenticated
 
 
-class FirebaseTokenDetail(APIView):
+class RuleList(APIView):
     @Authenticated
     def post(self, request, user):
-        serializer = FirebaseTokenSerializer(data=request.data)
+        serializer = RuleSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
