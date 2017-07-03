@@ -5,10 +5,10 @@ Rule :
 ;
 
 Action:
-	SendAction | SetHeartBeatAction
+	SendAction | SetHeartbeatAction
 ;
 
-SetHeartBeatAction:
+SetHeartbeatAction:
 	'set heartbeat['deviceId=INT']' 'to' value=INT
 ;
 
@@ -29,7 +29,7 @@ Condition:
 ;
 
 BasicCondition:
-	'reading[' deviceId=INT '][' type=ID ']' comparator=EquitableComparator treshold=FLOAT
+	'reading[' deviceId=INT '][' type=ID ']' comparator=EquitableComparator threshold=FLOAT
 ;
 
 DifferenceCondition:

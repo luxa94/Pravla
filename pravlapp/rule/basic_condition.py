@@ -1,5 +1,4 @@
 class BasicCondition:
-
     def __init__(self):
         self.device_id = -1
         self.type = ""
@@ -10,5 +9,7 @@ class BasicCondition:
         self.device_id = model.deviceId
         self.type = model.type
         self.comparator = model.comparator
-        self.threshold= model.threshold
-        
+        self.threshold = model.threshold
+
+    def device_ids(self):
+        return [self.device_id]

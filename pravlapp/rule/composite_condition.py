@@ -1,9 +1,9 @@
 from pravlapp.rule.basic_condition import BasicCondition
 from pravlapp.rule.difference_condition import DifferenceCondition
+import itertools
 
 
 class CompositeCondition:
-
     def __init__(self):
         self.operator = ""
         self.conditions = []
@@ -26,3 +26,6 @@ class CompositeCondition:
                 composite_condition = CompositeCondition()
                 composite_condition.interpret(model_condition)
                 self.conditions.append(composite_condition)
+
+    def device_ids(self):
+        return list(itertools.chain(*[condition.device_ids() for condition in self.conditions]))
