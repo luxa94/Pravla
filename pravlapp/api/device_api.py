@@ -21,6 +21,14 @@ class DeviceDetail(APIView):
         serializer = DeviceSerializer(device)
         return Response(serializer.data)
 
+    def put(self, request, pk):
+        device = self.get_object(pk)
+        serializer = DeviceSerializer(device, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class DeviceList(APIView):
 

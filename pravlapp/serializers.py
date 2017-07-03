@@ -6,6 +6,7 @@ class ReadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reading
         fields = ('id', 'type', 'current_value', 'last_update')
+        extra_kwargs = {'id': {'read_only': False, 'required': False}}
 
 
 class DeviceSerializer(serializers.ModelSerializer):
@@ -22,6 +23,22 @@ class DeviceSerializer(serializers.ModelSerializer):
         for reading in readings:
             Reading.objects.create(device=device, **reading)
         return device
+
+    def update(self, instance, validated_data):
+        readings_data = validated_data.pop('readings')
+        readings = instance.readings.all()
+
+        instance.heartbeat = validated_data.get('heartbeat', instance.heartbeat)
+        instance.active = validated_data.get('active', instance.active)
+
+        instance.save()
+
+        for reading in readings:
+            reading_data = filter(lambda r: r['id'] == reading.id, readings_data)[0]
+            reading.current_value = reading_data.get('current_value', reading.current_value)
+            reading.save()
+
+        return instance
 
 
 class MessageSerializer(serializers.ModelSerializer):

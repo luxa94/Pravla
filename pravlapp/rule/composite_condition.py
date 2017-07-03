@@ -21,7 +21,7 @@ class CompositeCondition:
                 difference_condition = DifferenceCondition()
                 difference_condition.interpret(model_condition)
                 self.conditions.append(difference_condition)
-                
+
             elif model_condition.__class__.__name__ == "CompositeCondition":
                 composite_condition = CompositeCondition()
                 composite_condition.interpret(model_condition)
