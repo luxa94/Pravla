@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from pravlapp.api import user_api, firebase_token_api, device_api, message_api, rule_api
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     url(r'^users$', user_api.UserDetail.as_view()),
@@ -10,3 +11,5 @@ urlpatterns = [
     url(r'^messages$', message_api.MessageList.as_view()),
     url(r'^rules$', rule_api.RuleList.as_view())
 ]
+
+urlpatterns += staticfiles_urlpatterns()
