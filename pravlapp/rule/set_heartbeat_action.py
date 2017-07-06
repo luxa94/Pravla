@@ -6,3 +6,9 @@ class SetHeartbeatAction:
     def interpret(self, model):
         self.device_id = model.deviceId
         self.value = model.value
+
+    def validation_errors(self, devices):
+        for device in devices:
+            if device.id == self.device_id:
+                return []
+        return [f"Device with id {self.device_id} found in set action doesn't belong to you."]

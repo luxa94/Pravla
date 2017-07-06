@@ -9,20 +9,27 @@ from pravlapp.util.decorators import Authenticated
 
 
 class DeviceDetail(APIView):
-
     def get_object(self, pk):
         try:
             return Device.objects.get(pk=pk)
         except Device.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk):
+    @Authenticated
+    def get(self, request, user, pk):
         device = self.get_object(pk)
+        if device.user_id != user.id:
+            raise Http404
+
         serializer = DeviceSerializer(device)
         return Response(serializer.data)
 
-    def put(self, request, pk):
+    @Authenticated
+    def put(self, request, user, pk):
         device = self.get_object(pk)
+        if device.user_id != user.id:
+            raise Http404
+
         serializer = DeviceSerializer(device, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -31,7 +38,6 @@ class DeviceDetail(APIView):
 
 
 class DeviceList(APIView):
-
     @Authenticated
     def post(self, request, user):
         serializer = DeviceSerializer(data=request.data)
@@ -39,3 +45,10 @@ class DeviceList(APIView):
             serializer.save(user=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @Authenticated
+    def get(self, request, user):
+        devices = Device.objects.filter(user=user)
+        serializer = DeviceSerializer(devices, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

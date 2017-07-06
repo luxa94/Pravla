@@ -1,3 +1,6 @@
+import itertools
+
+from pravlapp.models import Device
 from pravlapp.rule.basic_condition import BasicCondition
 from pravlapp.rule.composite_condition import CompositeCondition
 from pravlapp.rule.difference_condition import DifferenceCondition
@@ -43,3 +46,11 @@ class ParsedRule:
 
     def set_action_device_ids(self):
         return [action.device_id for action in self.set_actions]
+
+    def validation_errors(self, user):
+        user_devices = list(Device.objects.filter(user=user))
+
+        errors_condition = self.condition.validation_errors(user_devices)
+        errors_action = list(itertools.chain(*[action.validation_errors(user_devices) for action in self.set_actions]))
+
+        return errors_condition + errors_action

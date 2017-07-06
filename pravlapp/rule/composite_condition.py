@@ -29,3 +29,6 @@ class CompositeCondition:
 
     def device_ids(self):
         return list(itertools.chain(*[condition.device_ids() for condition in self.conditions]))
+
+    def validation_errors(self, devices):
+        return list(itertools.chain(*[condition.validation_errors(devices) for condition in self.conditions]))
