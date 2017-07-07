@@ -1,0 +1,10 @@
+<div>
+   <div>
+       <h3>Your devices</h3>
+       <div ng-repeat="device in dashboardVm.devices">{{ device.name }}</div>
+   </div>
+    <div>
+        <h3>Defined rules</h3>
+        <div ng-repeat="rule in dashboardVm.rules">{{ rule.definition }}</div>
+    </div>
+</div>

@@ -92,3 +92,10 @@ class RuleList(APIView):
         serializer.save(user=user, devices=devices)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @Authenticated
+    def get(self, request, user):
+        devices = Rule.objects.filter(user=user)
+        serializer = RuleSerializer(devices, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

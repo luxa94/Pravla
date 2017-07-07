@@ -99,3 +99,6 @@ ENV/
 db.sqlite3
 /metamodel/*.dot
 /metamodel/*.png
+
+#Client dependencies
+/pravlapp/static/bower_components
