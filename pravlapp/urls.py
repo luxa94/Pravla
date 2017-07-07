@@ -15,7 +15,6 @@ urlpatterns = [
     url(r'^rules/(?P<pk>[0-9]+)$', rule_api.RuleDetails.as_view()),
     url(r'^email$', email_api.EmailSender.as_view()),
     url(r'^$', TemplateView.as_view(template_name="index.html"))
-
 ]
 
 urlpatterns += staticfiles_urlpatterns()
