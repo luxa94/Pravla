@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class User(models.Model):
     username = models.CharField(unique=True, max_length=256)
@@ -31,7 +32,7 @@ class Rule(models.Model):
 
 
 class Message(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now=True)
     rule = models.ForeignKey(Rule, related_name="messages")
     user = models.ForeignKey(User, related_name="messages")
 
@@ -39,4 +40,3 @@ class Message(models.Model):
 class FirebaseToken(models.Model):
     token = models.CharField(max_length=1000)
     user = models.ForeignKey(User, related_name="tokens")
-

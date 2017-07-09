@@ -42,9 +42,16 @@ class DeviceSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    class RuleNameSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Rule
+            fields = ('name',)
+
+    rule = RuleNameSerializer(read_only=True)
+
     class Meta:
         model = Message
-        fields = ('id', 'timestamp')
+        fields = ('id', 'timestamp', 'rule')
 
 
 class RuleSerializer(serializers.ModelSerializer):
