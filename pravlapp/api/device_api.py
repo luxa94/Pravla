@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from pravlapp.models import Device
+from pravlapp.models import Device, Rule, Message
 from pravlapp.serializers import DeviceSerializer
 from pravlapp.util.decorators import Authenticated
 
@@ -33,9 +33,24 @@ class DeviceDetail(APIView):
         serializer = DeviceSerializer(device, data=request.data)
         if serializer.is_valid():
             serializer.save()
+
+            rules = device.rule_set.all()
+            self.check_rules(rules, user)
+
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def check_rules(self, rules, user):
+        for rule in rules:
+            self.check_rule(rule, user)
+
+    def check_rule(self, rule, user):
+        devices = rule.devices.all()
+
+        if rule.applies_for(devices):
+            rule.execute_actions(user)
+            Message.objects.create(rule=rule, user=user)
 
 
 class DeviceList(APIView):
