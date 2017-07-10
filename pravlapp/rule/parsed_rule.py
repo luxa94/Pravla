@@ -1,4 +1,5 @@
 import itertools
+import datetime
 
 from pravlapp.models import Device
 from pravlapp.rule.basic_condition import BasicCondition
@@ -56,7 +57,11 @@ class ParsedRule:
         return errors_condition + errors_action
 
     def applies_for(self, devices):
-        return self.condition.applies_for(devices)
+        today = datetime.datetime.now()
+        day = today.strftime('%A')
+        if day in self.days:
+            return self.condition.applies_for(devices)
+        return False
 
     def execute_actions(self, user):
         for set_action in self.set_actions:
