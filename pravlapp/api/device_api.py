@@ -6,6 +6,7 @@ from rest_framework import status
 from pravlapp.models import Device, Rule, Message
 from pravlapp.serializers import DeviceSerializer
 from pravlapp.util.decorators import Authenticated
+from pravlapp.util.rule_parser import parse_rule
 
 
 class DeviceDetail(APIView):
@@ -48,8 +49,9 @@ class DeviceDetail(APIView):
     def check_rule(self, rule, user):
         devices = rule.devices.all()
 
-        if rule.applies_for(devices):
-            rule.execute_actions(user)
+        parsed_rule = parse_rule(rule.definition)
+        if parsed_rule.applies_for(devices):
+            parsed_rule.execute_actions(user)
             Message.objects.create(rule=rule, user=user)
 
 

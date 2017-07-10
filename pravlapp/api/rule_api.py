@@ -2,25 +2,11 @@ from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from textx.exceptions import TextXSyntaxError
-from textx.metamodel import metamodel_from_file
 
 from pravlapp.models import Device, Rule
-from pravlapp.rule.parsed_rule import ParsedRule
 from pravlapp.serializers import RuleSerializer
 from pravlapp.util.decorators import Authenticated
-
-
-def parse_rule(definition):
-    rule_mm = metamodel_from_file('metamodel/rule.tx')
-    try:
-        rule_model = rule_mm.model_from_str(definition)
-    except TextXSyntaxError:
-        return None
-
-    rule = ParsedRule()
-    rule.interpret(rule_model)
-    return rule
+from pravlapp.util.rule_parser import parse_rule
 
 
 class RuleDetails(APIView):
