@@ -1,6 +1,8 @@
 from pravlapp.models import Reading
 from pravlapp.rule.condition import BaseCondition
 
+operators = {'<': '+', '>': '-', '<=': '+', '>=': '-'}
+
 
 class DifferenceCondition(BaseCondition):
     def __init__(self):
@@ -48,3 +50,12 @@ class DifferenceCondition(BaseCondition):
             return [f"Device with id {self.device_one_id} can't be compared to itself."]
 
         return []
+
+    def applies_for(self, devices):
+        device_one = self.find_device(devices, self.device_one_id)
+        device_two = self.find_device(devices, self.device_two_id)
+
+        reading_one = self.find_reading(device_one.readings, self.device_one_type)
+        reading_two = self.find_reading(device_two.readings, self.device_two_type)
+
+        return eval(f'{reading_one.current_value} {operators[self.comparator]} {self.difference} {self.comparator} {reading_two.current_value}')

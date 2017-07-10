@@ -54,3 +54,12 @@ class ParsedRule:
         errors_action = list(itertools.chain(*[action.validation_errors(user_devices) for action in self.set_actions]))
 
         return errors_condition + errors_action
+
+    def applies_for(self, devices):
+        return self.condition.applies_for(devices)
+
+    def execute_actions(self, user):
+        for set_action in self.set_actions:
+            set_action.execute()
+        for send_action in self.send_actions:
+            send_action.execute(user)

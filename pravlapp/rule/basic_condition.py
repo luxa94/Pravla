@@ -30,3 +30,9 @@ class BasicCondition(BaseCondition):
             return [f"Device with id {self.device_id} doesn't have reading of type {self.type}."]
 
         return []
+
+    def applies_for(self, devices):
+        device = self.find_device(devices, self.device_id)
+        reading = self.find_reading(device.readings, self.type)
+        return eval(f'{reading.current_value} {self.comparator} {self.threshold}')
+
