@@ -11,11 +11,16 @@
     function ruleService($http) {
 
         return {
-            findAll: findAll
+            findAll: findAll,
+            add : add
         };
 
         function findAll() {
             return $http.get('rules');
+        }
+
+        function add(rule) {
+            return $http.post('rules', rule);
         }
     }
 })(angular);

@@ -11,11 +11,26 @@
     function deviceService($http) {
 
         return {
-            findAll: findAll
+            find: find,
+            findAll: findAll,
+            add: add,
+            edit: edit
         };
+
+        function find(id) {
+            return $http.get(`devices/${id}`);
+        }
 
         function findAll() {
             return $http.get('devices');
+        }
+
+        function add(device) {
+            return $http.post('devices', device);
+        }
+
+        function edit(device) {
+            return $http.put('devices', device);
         }
     }
 })(angular);

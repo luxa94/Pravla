@@ -1,0 +1,29 @@
+body {
+    padding: 2%;
+    color: #6666;
+}
+.dashboard {
+    text-align: center;
+}
+
+.dashboard-panel {
+    float: left;
+    display: inline-block;
+    width: 45%;
+    margin-right: 2%;
+}
+
+.dashboard-panel p {
+    margin: 0;
+}
+
+.form-wrapper {
+    text-align: center;
+    background: #fcf2d6;
+}
+
+.form-wrapper input, button, textarea {
+    display: inline-block;
+    width: 50%;
+    margin-bottom: 2%;
+}
