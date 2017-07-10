@@ -2,6 +2,8 @@ from pravlapp.rule.basic_condition import BasicCondition
 from pravlapp.rule.difference_condition import DifferenceCondition
 import itertools
 
+neutral_values = {'or': False, 'and': True}
+
 
 class CompositeCondition:
     def __init__(self):
@@ -32,3 +34,13 @@ class CompositeCondition:
 
     def validation_errors(self, devices):
         return list(itertools.chain(*[condition.validation_errors(devices) for condition in self.conditions]))
+
+    def applies_for(self, devices):
+        neutral_value = neutral_values[self.operator]
+
+        for condition in self.conditions:
+            applies = condition.applies_for(devices)
+            if applies != neutral_value:
+                return applies
+
+        return neutral_value
