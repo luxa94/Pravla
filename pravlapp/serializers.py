@@ -34,7 +34,7 @@ class DeviceSerializer(serializers.ModelSerializer):
         instance.save()
 
         for reading in readings:
-            reading_data = filter(lambda r: r['id'] == reading.id, readings_data)[0]
+            reading_data = list(filter(lambda r: r['id'] == reading.id, readings_data))[0]
             reading.current_value = reading_data.get('current_value', reading.current_value)
             reading.save()
 

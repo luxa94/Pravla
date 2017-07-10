@@ -1,3 +1,4 @@
+from pravlapp.models import FirebaseToken
 from pravlapp.util.email_util import send_email
 from pravlapp.util.notification_util import send_notification
 
@@ -15,5 +16,6 @@ class SendAction:
         if self.command == 'email':
             send_email(user.email, self.text)
         else:
-            for token in user.tokens:
-                send_notification(self.text, token)
+            tokens = FirebaseToken.objects.filter(user=user)
+            for token in tokens:
+                send_notification(self.text, token.token)

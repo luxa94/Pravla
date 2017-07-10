@@ -33,6 +33,6 @@ class BasicCondition(BaseCondition):
 
     def applies_for(self, devices):
         device = self.find_device(devices, self.device_id)
-        reading = self.find_reading(device.readings, self.type)
+        reading = self.find_reading(Reading.objects.filter(device=device), self.type)
         return eval(f'{reading.current_value} {self.comparator} {self.threshold}')
 

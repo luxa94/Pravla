@@ -16,4 +16,4 @@ def send_notification(message, token):
         'Authorization': f'key={settings.FIREBASE_API_KEY}'
     }
 
-    requests.post('https://fcm.googleapis.com/fcm/send', data=data, headers=headers)
+    requests.post('https://fcm.googleapis.com/fcm/send', json=data, headers=headers)
