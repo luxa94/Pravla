@@ -30,7 +30,7 @@
         }
 
         function edit(device) {
-            return $http.put('devices', device);
+            return $http.put(`devices/${device.id}`, device);
         }
     }
 })(angular);

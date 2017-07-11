@@ -22,6 +22,7 @@
         dashboardVm.addDevice = addDevice;
         dashboardVm.addRule = addRule;
         dashboardVm.toDevice = toDevice;
+        dashboardVm.toRule = toRule;
 
         activate();
 
@@ -71,6 +72,10 @@
 
         function toDevice(id) {
             $state.go('device', {'id': id});
+        }
+
+        function toRule(id) {
+            $state.go('rule', {'id': id});
         }
     }
 })(angular);

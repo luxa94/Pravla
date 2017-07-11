@@ -11,8 +11,11 @@
         var deviceVm = this;
 
         deviceVm.device = {};
+        deviceVm.selectedReading = {};
 
-        deviceVm.edit = edit;
+        deviceVm.editDevice = editDevice;
+        deviceVm.editSelectedReading = editSelectedReading;
+        deviceVm.selectReading = selectReading;
 
         activate();
 
@@ -25,13 +28,23 @@
             });
         }
 
-        function edit() {
+        function editDevice() {
             deviceService.edit(deviceVm.device)
                 .then(function(response) {
                     deviceVm.device = response.data;
                 }).catch(function(error) {
                 console.log("Server error");
             });
+        }
+
+        function editSelectedReading() {
+            idx = deviceVm.device.readings.findIndex(reading => deviceVm.selectedReading.id == reading.id)
+            deviceVm.device.readings.splice(idx);
+            deviceVm.device.readings.push(deviceVm.selectedReading);
+        }
+
+        function selectReading(reading) {
+            deviceVm.selectedReading = angular.copy(reading);
         }
 
     }

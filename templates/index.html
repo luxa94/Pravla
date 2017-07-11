@@ -12,6 +12,7 @@
     <!--App scripts-->
     <script src="static/app.js"></script>
     <script src="static/auth/auth.interceptor.js"></script>
+    <script src="static/auth/auth.controller.js"></script>
     <script src="static/shared/storage.service.js"></script>
 
     <script src="static/auth/login/login.controller.js"></script>
@@ -29,12 +30,20 @@
     <script src="static/device/device.state.js"></script>
     <script src="static/device/device.service.js"></script>
 
-
+    <script src="static/rule/rule.controller.js"></script>
+    <script src="static/rule/rule.state.js"></script>
     <script src="static/rule/rule.service.js"></script>
 
-    <a ui-sref="login">Login</a>
-    <a ui-sref="register">Register</a>
+    <div ng-controller="AuthCtrl as authVm">
+        <div ng-if="!authVm.isSessionActive()">
+            <a ui-sref="login">Login</a>
+            <a ui-sref="register">Register</a>
+        </div>
 
+        <div ng-if="authVm.isSessionActive()">
+            <a href="" ng-click="authVm.terminateSession()">Log out</a>
+        </div>
+    <div>
     <ui-view></ui-view>
 </body>
 </html>

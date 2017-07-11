@@ -32,7 +32,9 @@
    </div>
     <div class="dashboard-panel">
         <h3>Defined rules</h3>
-        <div ng-repeat="rule in dashboardVm.rules">{{ rule.definition }}</div>
+        <div ng-repeat="rule in dashboardVm.rules">
+            <p>{{ rule.definition }} | <button ng-click="dashboardVm.toRule(rule.id)">Edit</button></p>
+        </div>
         <hr/>
         <div class="form-wrapper">
             <div><i>Define your new rule</i></div>
