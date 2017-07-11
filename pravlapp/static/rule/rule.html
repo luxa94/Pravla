@@ -1,0 +1,15 @@
+<div>
+    <div class="form-wrapper">
+            <div><i>Details for rule</i></div>
+            <div>Last updated on: {{ ruleVm.rule.last_update }}</div>
+            <form>
+                <input type="text" ng-model="ruleVm.rule.name"/>
+                <textarea rows="25" cols="50" ng-model="ruleVm.rule.definition"></textarea>
+                <div class="checkbox-wrapper">
+                    <label>Active:</label>
+                    <input type="checkbox" ng-model="ruleVm.rule.active"/>
+                </div>
+                <input type="submit" value="Edit" ng-click="ruleVm.edit()"/>
+            </form>
+        </div>
+</div>

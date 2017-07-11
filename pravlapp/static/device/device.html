@@ -1,3 +1,27 @@
 <div>
-    <h2>Device: {{ deviceVm.device.name }} </h2>
+    <div class="form-wrapper">
+        <div><i>Details for device</i></div>
+        <form>
+            <input type="text" placeholder="Serial number" ng-model="deviceVm.device.serial_number" disabled/>
+            <input type="text" placeholder="Name" ng-model="deviceVm.device.name" disabled/>
+            <input type="number" placeholder="Heartbeat" ng-model="deviceVm.device.heartbeat"/>
+            <div class="checkbox-wrapper">
+                <label>Active:</label>
+                <input type="checkbox" ng-model="deviceVm.device.active"/>
+            </div>
+            <div>
+                <h2>Define readings for your device</h2>
+                <input type="text" placeholder="Type" ng-model="deviceVm.selectedReading.type"/>
+                <input type="number" placeholder="Current value" ng-model="deviceVm.selectedReading.current_value"/>
+                <button ng-click="deviceVm.editSelectedReading()">Edit</button>
+            </div>
+            <div>
+                <h2>Currently defined readings for this device</h2>
+                <div ng-repeat="reading in deviceVm.device.readings">
+                    <span ng-click="deviceVm.selectReading(reading)">{{ reading.type }} | {{ reading.current_value }}</span>
+                </div>
+            </div>
+            <input type="submit" value="Edit device" ng-click="deviceVm.editDevice()"/>
+        </form>
+    </div>
 </div>
