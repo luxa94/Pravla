@@ -8,6 +8,8 @@ from pravlapp.rule.difference_condition import DifferenceCondition
 from pravlapp.rule.send_action import SendAction
 from pravlapp.rule.set_heartbeat_action import SetHeartbeatAction
 
+all_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
 
 class ParsedRule:
     def __init__(self):
@@ -39,6 +41,8 @@ class ParsedRule:
                 new_action.interpret(action)
                 self.set_actions.append(new_action)
 
+        self.days = model.days
+
         if model.days is None or len(model.days) == 0:
             self.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
@@ -57,9 +61,8 @@ class ParsedRule:
         return errors_condition + errors_action
 
     def applies_for(self, devices):
-        today = datetime.datetime.now()
-        day = today.strftime('%A')
-        if day in self.days:
+        today = all_days[datetime.datetime.now().weekday()]
+        if today in self.days:
             return self.condition.applies_for(devices)
         return False
 
