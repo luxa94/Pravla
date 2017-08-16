@@ -12,8 +12,7 @@ urlpatterns = [
     url(r'^devices/(?P<pk>[0-9]+)$', device_api.DeviceDetail.as_view()),
     url(r'^messages$', message_api.MessageList.as_view()),
     url(r'^rules$', rule_api.RuleList.as_view()),
-    url(r'^rules/(?P<pk>[0-9]+)$', rule_api.RuleDetails.as_view()),
-    url(r'^$', TemplateView.as_view(template_name="index.html"))
+    url(r'^rules/(?P<pk>[0-9]+)$', rule_api.RuleDetails.as_view())
 ]
 
 urlpatterns += staticfiles_urlpatterns()
