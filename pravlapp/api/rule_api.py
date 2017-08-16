@@ -17,6 +17,7 @@ class RuleDetails(APIView):
             raise Http404
 
     @Authenticated
+    @Authenticated
     def get(self, request, user, pk):
         rule = self.get_object(pk)
         if rule.user_id != user.id:

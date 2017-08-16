@@ -1,4 +1,4 @@
-from pravlapp.models import Reading
+from pravlapp.models import Feed
 from pravlapp.rule.condition import BaseCondition
 
 operators = {'<': '+', '>': '-', '<=': '+', '>=': '-'}
@@ -33,15 +33,15 @@ class DifferenceCondition(BaseCondition):
         if device_two is None:
             return [f"Device with id {self.device_two_id} found in rule condition doesn't belong to you."]
 
-        device_one_readings = list(Reading.objects.filter(device=device_one))
-        reading_one = self.find_reading(device_one_readings, self.device_one_type)
-        if reading_one is None:
-            return [f"Device with id {self.device_one_id} doesn't have reading of type {self.device_one_type}."]
+        device_one_feeds = list(Feed.objects.filter(device=device_one))
+        feed_one = self.find_feed(device_one_feeds, self.device_one_type)
+        if feed_one is None:
+            return [f"Device with id {self.device_one_id} doesn't have feed of type {self.device_one_type}."]
 
-        device_two_readings = list(Reading.objects.filter(device=device_two))
-        reading_two = self.find_reading(device_two_readings, self.device_two_type)
-        if reading_two is None:
-            return [f"Device with id {self.device_two_id} doesn't have reading of type {self.device_two_type}."]
+        device_two_feeds = list(Feed.objects.filter(device=device_two))
+        feed_two = self.find_feed(device_two_feeds, self.device_two_type)
+        if feed_two is None:
+            return [f"Device with id {self.device_two_id} doesn't have feed of type {self.device_two_type}."]
 
         if self.device_one_type != self.device_two_type:
             return [f'Found different types in same condition ({self.device_one_type} and {self.device_two_type}).']
@@ -55,7 +55,7 @@ class DifferenceCondition(BaseCondition):
         device_one = self.find_device(devices, self.device_one_id)
         device_two = self.find_device(devices, self.device_two_id)
 
-        reading_one = self.find_reading(device_one.readings, self.device_one_type)
-        reading_two = self.find_reading(device_two.readings, self.device_two_type)
+        feed_one = self.find_feed(device_one.feeds, self.device_one_type)
+        feed_two = self.find_feed(device_two.feeds, self.device_two_type)
 
-        return eval(f'{reading_one.current_value} {operators[self.comparator]} {self.difference} {self.comparator} {reading_two.current_value}')
+        return eval(f'{feed_one.current_value} {operators[self.comparator]} {self.difference} {self.comparator} {feed_two.current_value}')

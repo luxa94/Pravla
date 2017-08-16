@@ -16,11 +16,11 @@ class Device(models.Model):
     user = models.ForeignKey(User, related_name="devices")
 
 
-class Reading(models.Model):
+class Feed(models.Model):
     type = models.CharField(max_length=256)
     current_value = models.FloatField()
     last_update = models.DateTimeField(auto_now=True)
-    device = models.ForeignKey(Device, related_name="readings")
+    device = models.ForeignKey(Device, related_name="feeds")
 
 
 class Rule(models.Model):

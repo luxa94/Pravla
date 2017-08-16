@@ -1,4 +1,4 @@
-from pravlapp.models import Reading
+from pravlapp.models import Feed
 from pravlapp.rule.condition import BaseCondition
 
 
@@ -23,16 +23,16 @@ class BasicCondition(BaseCondition):
         if device is None:
             return [f"Device with id {self.device_id} found in rule condition doesn't belong to you."]
 
-        device_readings = list(Reading.objects.filter(device=device))
-        reading = self.find_reading(device_readings, self.type)
-        print(f'reading type: {self.type}, reading: {reading}')
-        if reading is None:
-            return [f"Device with id {self.device_id} doesn't have reading of type {self.type}."]
+        device_feeds = list(Feed.objects.filter(device=device))
+        feed = self.find_feed(device_feeds, self.type)
+        print(f'feed type: {self.type}, feed: {feed}')
+        if feed is None:
+            return [f"Device with id {self.device_id} doesn't have feed of type {self.type}."]
 
         return []
 
     def applies_for(self, devices):
         device = self.find_device(devices, self.device_id)
-        reading = self.find_reading(Reading.objects.filter(device=device), self.type)
-        return eval(f'{reading.current_value} {self.comparator} {self.threshold}')
+        feed = self.find_feed(Feed.objects.filter(device=device), self.type)
+        return eval(f'{feed.current_value} {self.comparator} {self.threshold}')
 

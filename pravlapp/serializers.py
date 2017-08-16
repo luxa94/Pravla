@@ -1,42 +1,42 @@
 from rest_framework import serializers
-from pravlapp.models import User, Device, Reading, Rule, Message, FirebaseToken
+from pravlapp.models import User, Device, Feed, Rule, Message, FirebaseToken
 
 
-class ReadingSerializer(serializers.ModelSerializer):
+class FeedSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Reading
+        model = Feed
         fields = ('id', 'type', 'current_value', 'last_update')
         extra_kwargs = {'id': {'read_only': False, 'required': False}}
 
 
 class DeviceSerializer(serializers.ModelSerializer):
-    readings = ReadingSerializer(many=True)
+    feeds = FeedSerializer(many=True)
 
     class Meta:
         model = Device
-        fields = ('id', 'serial_number', 'name', 'heartbeat', 'active', 'readings')
+        fields = ('id', 'serial_number', 'name', 'heartbeat', 'active', 'feeds')
 
     def create(self, validated_data):
         user = validated_data.pop('user')
-        readings = validated_data.pop('readings')
+        feeds = validated_data.pop('feeds')
         device = Device.objects.create(user=user, **validated_data)
-        for reading in readings:
-            Reading.objects.create(device=device, **reading)
+        for feed in feeds:
+            Feed.objects.create(device=device, **feed)
         return device
 
     def update(self, instance, validated_data):
-        readings_data = validated_data.pop('readings')
-        readings = instance.readings.all()
+        feeds_data = validated_data.pop('feeds')
+        feeds = instance.feeds.all()
 
         instance.heartbeat = validated_data.get('heartbeat', instance.heartbeat)
         instance.active = validated_data.get('active', instance.active)
 
         instance.save()
 
-        for reading in readings:
-            reading_data = list(filter(lambda r: r['id'] == reading.id, readings_data))[0]
-            reading.current_value = reading_data.get('current_value', reading.current_value)
-            reading.save()
+        for feed in feeds:
+            feed_data = list(filter(lambda r: r['id'] == feed.id, feeds_data))[0]
+            feed.current_value = feed_data.get('current_value', feed.current_value)
+            feed.save()
 
         return instance
 

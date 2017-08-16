@@ -5,9 +5,9 @@ class BaseCondition:
                 return device
         return None
 
-    def find_reading(self, readings, reading_type):
-        for reading in readings:
-            if reading.type == reading_type:
-                return reading
+    def find_feed(self, feeds, feed_type):
+        for feed in feeds:
+            if feed.type == feed_type:
+                return feed
 
         return None

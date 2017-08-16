@@ -29,13 +29,13 @@ Condition:
 ;
 
 BasicCondition:
-	'reading[' deviceId=INT '][' type=ID ']' comparator=EquitableComparator threshold=FLOAT
+	'feed[' deviceId=INT '][' type=ID ']' comparator=EquitableComparator threshold=FLOAT
 ;
 
 DifferenceCondition:
-	'reading[' deviceId1=INT '][' type1=ID ']'
+	'feed[' deviceId1=INT '][' type1=ID ']'
 	comparator=Comparator	
-	'reading[' deviceId2=INT '][' type2=ID ']'
+	'feed[' deviceId2=INT '][' type2=ID ']'
 	('by' difference=FLOAT)?
 ;
 
